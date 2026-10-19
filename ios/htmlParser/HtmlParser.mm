@@ -1687,10 +1687,11 @@
     fontFamilyString = [[self firstInFontFamilyString:fontFamilyString]
         stringByTrimmingCharactersInSet:[NSCharacterSet
                                             whitespaceAndNewlineCharacterSet]];
-    if (([fontFamilyString hasPrefix:@"'"] &&
-         [fontFamilyString hasSuffix:@"'"]) ||
-        ([fontFamilyString hasPrefix:@"\""] &&
-         [fontFamilyString hasSuffix:@"\""])) {
+    if (fontFamilyString.length >= 2 &&
+        (([fontFamilyString hasPrefix:@"'"] &&
+          [fontFamilyString hasSuffix:@"'"]) ||
+         ([fontFamilyString hasPrefix:@"\""] &&
+          [fontFamilyString hasSuffix:@"\""]))) {
       fontFamilyString = [fontFamilyString
           substringWithRange:NSMakeRange(1, fontFamilyString.length - 2)];
     }

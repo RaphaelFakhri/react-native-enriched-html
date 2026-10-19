@@ -772,6 +772,12 @@ TEST(GumboParserTest, NestedSpans) {
             "<span style=\"background-color: yellow\">A</span><span "
             "style=\"color: blue; background-color: yellow\">B</span>");
 
+  // `inherit` doesn't override the inherited value
+  EXPECT_EQ(
+      GumboParser::normalizeHtml("<span style=\"color: red\">A<span "
+                                 "style=\"color: inherit\">B</span></span>"),
+      "<span style=\"color: red\">AB</span>");
+
   // Transparent background alone is treated as no style
   EXPECT_EQ(GumboParser::normalizeHtml(
                 "<span style=\"background-color: TRANSPARENT\">A</span>"),

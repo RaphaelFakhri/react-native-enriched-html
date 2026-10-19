@@ -11,6 +11,7 @@ describe('normalizeFontFamily', () => {
     ["'SWM,Inc', Arial", 'SWM,Inc'],
     // an empty first family is no family
     [', Arial', null],
+    ["'", null],
     ['', null],
     [null, null],
   ])('%p → %p', (input, expected) => {

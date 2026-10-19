@@ -214,17 +214,22 @@ type CustomStyle = {
   fontFamily: string;
 };
 
+function ownCssValue(value: string): string {
+  // `inherit` must not overwrite the parent span's value
+  return value.toLowerCase() === 'inherit' ? '' : value;
+}
+
 function parseCustomStyle(el: Element): CustomStyle {
   const style = (el as HTMLElement).style;
   return {
-    fg: style.color,
+    fg: ownCssValue(style.color),
     // we don't want `transparent` to overwrite it's parent span's background-color
     bg:
       style.backgroundColor.toLowerCase() === 'transparent'
         ? ''
-        : style.backgroundColor,
-    fontSize: style.fontSize,
-    fontFamily: escapeText(style.fontFamily),
+        : ownCssValue(style.backgroundColor),
+    fontSize: ownCssValue(style.fontSize),
+    fontFamily: escapeText(ownCssValue(style.fontFamily)),
   };
 }
 

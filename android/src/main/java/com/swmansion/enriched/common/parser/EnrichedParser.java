@@ -1035,8 +1035,9 @@ class HtmlToSpannedConverter<T> implements ContentHandler {
   private static String parseCssFontFamily(String raw) {
     if (raw == null) return null;
     String value = firstInFontFamilyString(raw).trim();
-    if ((value.startsWith("'") && value.endsWith("'"))
-        || (value.startsWith("\"") && value.endsWith("\""))) {
+    if (value.length() >= 2
+        && ((value.startsWith("'") && value.endsWith("'"))
+            || (value.startsWith("\"") && value.endsWith("\"")))) {
       value = value.substring(1, value.length() - 1);
     }
     return value.isEmpty() ? null : value;

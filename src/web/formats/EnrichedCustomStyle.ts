@@ -200,7 +200,7 @@ export const EnrichedCustomStyle = Mark.create({
             patch.fontSize = resolveFontSize(attrs.fontSize);
           }
           if ('fontFamily' in attrs) {
-            patch.fontFamily = normalizeFontFamily(attrs.fontFamily);
+            patch.fontFamily = attrs.fontFamily?.trim() || null;
           }
 
           const mergeAttrs = (
@@ -209,7 +209,7 @@ export const EnrichedCustomStyle = Mark.create({
             foregroundColor: existing?.foregroundColor || null,
             backgroundColor: existing?.backgroundColor || null,
             fontSize: resolveFontSize(existing?.fontSize),
-            fontFamily: normalizeFontFamily(existing?.fontFamily),
+            fontFamily: existing?.fontFamily ?? null,
             ...patch,
           });
 

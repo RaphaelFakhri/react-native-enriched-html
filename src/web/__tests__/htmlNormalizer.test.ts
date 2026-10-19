@@ -665,6 +665,11 @@ describe('htmlNormalizer', () => {
         '<span style="background-color: yellow">A<span style="color: blue; background-color: transparent">B</span></span>',
         '<span style="background-color: yellow">A</span><span style="color: blue; background-color: yellow">B</span>',
       ],
+      // `inherit` doesn't override the inherited value
+      [
+        '<span style="color: red">A<span style="color: inherit">B</span></span>',
+        '<span style="color: red">AB</span>',
+      ],
       // Transparent background alone is treated as no style
       ['<span style="background-color: TRANSPARENT">A</span>', 'A'],
       // Whitespace between blocks is layout and doesn't become a paragraph

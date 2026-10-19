@@ -349,12 +349,18 @@ static bool css_val_contains(const char *val, size_t val_len,
   return false;
 }
 
+static bool css_value_is(css_slice_t value, const char *keyword) {
+  return value.len == strlen(keyword) &&
+         strncasecmp(value.val, keyword, value.len) == 0;
+}
+
 static css_slice_t find_custom_css_value(const char *style, size_t style_len,
                                          const char *prop_name) {
   css_slice_t slice = {NULL, 0};
   slice.val = find_css_value(style, style_len, prop_name, &slice.len);
-  if (!slice.val)
-    slice.len = 0;
+  // `inherit` must not overwrite the parent span's value
+  if (!slice.val || css_value_is(slice, "inherit"))
+    return (css_slice_t){NULL, 0};
   return slice;
 }
 
@@ -410,13 +416,11 @@ static css_styles_t parse_css_style(const char *style_value, size_t style_len) {
   }
 
   result.custom.fg = find_custom_css_value(style_value, style_len, "color");
-  css_slice_t background_color =
+  result.custom.bg =
       find_custom_css_value(style_value, style_len, "background-color");
-  // we don't want `transparent` to overwrite it's parent span's background-color
-  if (!(background_color.len == strlen("transparent") &&
-      strncasecmp(background_color.val, "transparent", background_color.len) == 0)) {
-    result.custom.bg = background_color;
-  }
+  // `transparent` must not overwrite the parent span's background-color value
+  if (css_value_is(result.custom.bg, "transparent"))
+    result.custom.bg = (css_slice_t){NULL, 0};
   result.custom.font_size =
       find_custom_css_value(style_value, style_len, "font-size");
   result.custom.font_family =
