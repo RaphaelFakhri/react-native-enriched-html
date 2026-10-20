@@ -381,7 +381,13 @@ public class EnrichedParser {
               }
             }
             out.append("<span style=\"")
-                .append(cssProps.toString().replace("&", "&amp;").replace("\"", "&quot;"))
+                .append(
+                    cssProps
+                        .toString()
+                        .replace("&", "&amp;")
+                        .replace("<", "&lt;")
+                        .replace(">", "&gt;")
+                        .replace("\"", "&quot;"))
                 .append("\">");
           } else {
             out.append("<span>");
