@@ -25,7 +25,7 @@ function mergeHtmlStyle(
       isPlainObject(prev) && isPlainObject(val) ? { ...prev, ...val } : val;
   }
 
-  return result as HtmlStyle;
+  return result;
 }
 
 export function VisualRegression() {
@@ -178,7 +178,7 @@ const styles = {
   htmlStyleOverrideInput: {
     width: '100%',
     marginBottom: '10px',
-    fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+    fontFamily: 'ui-monospace, monospace',
     fontSize: 12,
   },
   htmlInput: {
@@ -203,5 +203,5 @@ const enrichedInputStyle: EnrichedInputStyle = {
   backgroundColor: 'gainsboro',
   fontSize: 16,
   lineHeight: 22,
-  fontFamily: 'Inter, Helvetica Neue',
+  fontFamily: 'Helvetica Neue',
 };
