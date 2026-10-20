@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/core';
 import type { EditorView } from '@tiptap/pm/view';
-import { runFocused } from '../EnrichedTextInput';
+import { runFocused } from './runFocused';
 
 export function handleCheckBoxPress(
   event: MouseEvent,

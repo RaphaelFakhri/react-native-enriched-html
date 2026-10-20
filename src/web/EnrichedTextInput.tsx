@@ -18,12 +18,7 @@ import {
   nativePosToTiptapPos,
   nativeLeafText,
 } from './nativeMappers/positionMapping';
-import {
-  useEditor,
-  EditorContent,
-  type ChainedCommands,
-  Editor,
-} from '@tiptap/react';
+import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
@@ -93,13 +88,7 @@ import { assertBrowserEnvironment } from './utils/assertBrowserEnvironment';
 import { runSafelyInEditor } from './utils/runSafelyInEditor';
 import { useLinkPress } from './htmlExtensions/useLinkPress';
 import { handleCheckBoxPress } from './utils/handleCheckBoxPress';
-
-export function runFocused(
-  editor: Editor,
-  apply: (chain: ChainedCommands) => ChainedCommands
-) {
-  runSafelyInEditor(editor, (e) => apply(e.chain().focus()).run());
-}
+import { runFocused } from './utils/runFocused';
 
 export const EnrichedTextInput = ({
   ref,
