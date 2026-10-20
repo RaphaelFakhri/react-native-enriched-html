@@ -292,7 +292,23 @@ export const EnrichedTextInput = ({
       editorProps: {
         handleKeyDown: (view, event) => handleKeyDown(view.state.doc, event),
         handleDOMEvents: {
-          click: (_view, event) => handleLinkPress(event),
+          click: (view, event) => {
+            const target = event.target;
+            if (
+              target instanceof HTMLInputElement &&
+              target.type === 'checkbox'
+            ) {
+              const position = view.posAtDOM(target, 0);
+              const node = view.state.doc.nodeAt(position);
+              runFocused(editor, (c) =>
+                c.setTextSelection(
+                  position + (node!.textContent?.length ?? 0) + 1
+                )
+              );
+            }
+
+            return handleLinkPress(event);
+          },
           mousedown: (_view, event) => handleLinkMouseDown(event),
         },
         handlePaste: (_view, event) =>
