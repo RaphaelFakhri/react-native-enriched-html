@@ -92,8 +92,9 @@ import {
 import { assertBrowserEnvironment } from './utils/assertBrowserEnvironment';
 import { runSafelyInEditor } from './utils/runSafelyInEditor';
 import { useLinkPress } from './htmlExtensions/useLinkPress';
+import { handleCheckBoxPress } from './utils/handleCheckBoxPress';
 
-function runFocused(
+export function runFocused(
   editor: Editor,
   apply: (chain: ChainedCommands) => ChainedCommands
 ) {
@@ -293,20 +294,7 @@ export const EnrichedTextInput = ({
         handleKeyDown: (view, event) => handleKeyDown(view.state.doc, event),
         handleDOMEvents: {
           click: (view, event) => {
-            const target = event.target;
-            if (
-              target instanceof HTMLInputElement &&
-              target.type === 'checkbox'
-            ) {
-              const position = view.posAtDOM(target, 0);
-              const node = view.state.doc.nodeAt(position);
-              runFocused(editor, (c) =>
-                c.setTextSelection(
-                  position + (node!.textContent?.length ?? 0) + 1
-                )
-              );
-            }
-
+            handleCheckBoxPress(event, editor, view);
             return handleLinkPress(event);
           },
           mousedown: (_view, event) => handleLinkMouseDown(event),

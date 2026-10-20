@@ -1,0 +1,18 @@
+import { Editor } from '@tiptap/core';
+import type { EditorView } from '@tiptap/pm/view';
+import { runFocused } from '../EnrichedTextInput';
+
+export function handleCheckBoxPress(
+  event: MouseEvent,
+  editor: Editor,
+  view: EditorView
+) {
+  const target = event.target;
+  if (target instanceof HTMLInputElement && target.type === 'checkbox') {
+    const position = view.posAtDOM(target, 0);
+    const node = view.state.doc.nodeAt(position);
+    runFocused(editor, (c) =>
+      c.setTextSelection(position + node!.nodeSize - 1)
+    );
+  }
+}
